@@ -511,7 +511,7 @@ table.size-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 /* Página de archivo (marca) */
 .manifesto { font-size: clamp(28px, 3.6vw, 54px); font-weight: 600; line-height: 1.08; letter-spacing: -.02em; max-width: 22ch; }
 .manifesto em { font-style: normal; color: var(--red); }
-.pattern-band { height: clamp(160px, 22vw, 300px); background: url("../img/editorial/PRESSURE_BANNER.webp") center / cover; filter: contrast(1.1); mix-blend-mode: multiply; opacity: .9; }
+.pattern-band { height: clamp(160px, 22vw, 300px); background: url("../img/editorial/pressure_banner.webp") center / cover; filter: contrast(1.1); mix-blend-mode: multiply; opacity: .9; }
 .timeline { display: grid; gap: 0; border-top: 1px solid var(--ink); }
 .timeline a { display: grid; grid-template-columns: 120px 1fr auto; gap: 24px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--line); transition: background .2s, padding .3s var(--ease); }
 .timeline a:hover { background: var(--cream); padding-inline: 16px; }
@@ -609,4 +609,24 @@ table.size-table { width: 100%; border-collapse: collapse; font-size: 14px; }
   .footer__top { grid-template-columns: 1fr; }
   .section-head { flex-direction: column; align-items: start; }
   .view-switch .mono { display: none; }
+}
+
+/* Enlace para volver a la hoja de vida (R8) */
+.volver-cv {
+    position: fixed;
+    left: 1rem;
+    bottom: 1rem;
+    z-index: 80;
+    padding: 0.55rem 0.95rem;
+    border-radius: 2rem;
+    background-color: #2b4a7a;
+    color: #ffffff;
+    font: 600 0.85rem/1.2 system-ui, sans-serif;
+    text-decoration: none;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.25);
+}
+
+.volver-cv:hover,
+.volver-cv:focus {
+    background-color: #3f72af;
 }

@@ -47,8 +47,8 @@ window.PRESSURE_CONFIG = {
       tagline: "¡Ya disponible!",
       description: "Cuatro gorras, cuatro órbitas: Astro, Tierra, Cielo y Sombra. Algodón de alta resistencia, visera curva y el bordado PRESSURE en contraste.",
       cover: "assets/img/editorial/img_024.webp",
-      video: "assets/video/67595336afee454586099d75d8f3fc6d.HD-1080p-7.2Mbps-84348916.mp4",
-      poster: "assets/img/editorial/Post_02-05_1617a13d-5970-414f-9027-b266c300a020.webp",
+      video: "assets/video/67595336afee454586099d75d8f3fc6d.hd-1080p-7.2mbps-84348916.mp4",
+      poster: "assets/img/editorial/post_02-05_1617a13d-5970-414f-9027-b266c300a020.webp",
       lookbook: [
         "assets/img/editorial/img_024.webp",
         "assets/img/editorial/img_028.webp",
@@ -66,7 +66,7 @@ window.PRESSURE_CONFIG = {
       tagline: "Lo que pesa y permanece",
       description: "Una colección hecha desde lo interno, lo que pesa y permanece. Camisetas oversize de 250 g con estampado serigráfico en frente y espalda.",
       cover: "assets/img/editorial/img001.webp",
-      video: "assets/video/e786b18f3a464229a7a411c454585ff8.HD-1080p-2.5Mbps-83226971.mp4",
+      video: "assets/video/e786b18f3a464229a7a411c454585ff8.hd-1080p-2.5mbps-83226971.mp4",
       poster: "assets/img/editorial/img002.webp",
       lookbook: [
         "assets/img/editorial/img001.webp",

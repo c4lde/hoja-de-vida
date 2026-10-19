@@ -19,6 +19,8 @@ Sitio personal con mi hoja de vida como desarrollador de software junior en form
 | `pressure-html/` | **Pressure:** tienda de ropa urbana, proyecto de clase en Campuslands | HTML, CSS |
 | `pressure-web/` | **PRESSURE, tienda en línea oficial:** página web real de la marca. Partí del código base de su tienda en Shopify, escrito en JavaScript, y trabajé sobre él. Fue mi primer trabajo con JavaScript: me apoyé en IA para entender el lenguaje y seguí desarrollando sobre esa base. En esta copia el pago en línea está desactivado (GitHub Pages no ejecuta PHP) y los pedidos se hacen por WhatsApp. | HTML, CSS, JavaScript |
 
+Las páginas de la hoja de vida (`index.html`, `proyectos.html` y `contacto.html`) comparten un solo `styles.css`. Los dos proyectos son sitios independientes y conservan su propio CSS, pero en todas sus páginas hay un enlace para volver a la hoja de vida.
+
 ## Mockups
 
 ### Celular

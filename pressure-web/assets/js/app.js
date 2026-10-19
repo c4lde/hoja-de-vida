@@ -431,14 +431,14 @@
 
     const folders = [
       ...CFG.types.map((t) => ({ href: typeUrl(t.handle), tab: "Prenda", title: t.title, img: t.cover, n: PRODUCTS.filter((p) => p.type === t.handle).length })),
-      { href: collectionUrl("basicas"), tab: collection("basicas").file, title: "Básicas", img: "assets/img/editorial/IMG_5393.webp", n: PRODUCTS.filter((p) => p.collection === "basicas").length },
+      { href: collectionUrl("basicas"), tab: collection("basicas").file, title: "Básicas", img: "assets/img/editorial/img_5393.webp", n: PRODUCTS.filter((p) => p.collection === "basicas").length },
     ];
 
     const orb = collection(CURRENT_DROP);
     const testa = collection("testamentos");
     const basics = PRODUCTS.filter((p) => p.collection === "basicas");
     const street = [
-      ["assets/img/editorial/IMG_5241.webp", "Calle 52"],
+      ["assets/img/editorial/img_5241.webp", "Calle 52"],
       ["assets/img/editorial/20260313_204738.webp", "13.03.26"],
       ["assets/img/editorial/img_007.webp", "Puerto"],
       ["assets/img/editorial/img_023.webp", "Órbita / Cielo"],
@@ -1061,7 +1061,7 @@
   function pageNotFound() {
     setMeta("Página no encontrada | PRESSURE", "La página que buscas no existe.");
     $("#main").innerHTML = `<div class="notfound"><div>
-      <img src="assets/img/editorial/PRESSURE_PERSONAJE_SOLO_CABEZA.webp" alt="" width="160" height="160">
+      <img src="assets/img/editorial/pressure_personaje_solo_cabeza.webp" alt="" width="160" height="160">
       <span class="stamp">Expediente perdido</span>
       <h1 class="display" style="margin:18px 0 10px">404</h1>
       <p style="margin-bottom:24px;color:var(--ink-2)">Este archivo no existe o fue retirado del índice.</p>
