@@ -1,0 +1,1534 @@
+/* Paleta tomada de las fotos del cuaderno "Pressure Archive" que envió el cliente */
+:root {
+    --color-mesa: #c8322b;          /* rojo de la mesa sobre la que se fotografió el cuaderno */
+    --color-portada: #1f1b19;       /* negro de las tapas */
+    --color-portada-lomo: #151110;
+    --color-hoja: #f1ebdf;          /* crema de las hojas */
+    --color-hoja-linea: rgba(42, 29, 34, 0.28);
+    --color-foto: #fdfaf3;          /* papel de las fotos pegadas */
+    --color-cinta: rgba(222, 205, 170, 0.82);
+    --color-tinta: #2a1d22;         /* tinta del lapicero de las ilustraciones */
+    --color-texto: #3a2f2f;
+    --color-texto-suave: #6b5f57;
+    --color-azul: #3a4aa0;          /* marcador azul */
+    --color-verde: #2f5a3f;         /* marcador verde */
+    --color-kraft: #c49a73;         /* marcador piel / kraft */
+    --color-kraft-oscuro: #8a6440;
+    --color-tiza: #efe9d6;          /* pintura crema de la portada */
+    --color-tiza-suave: #b3ab98;
+    --color-acento: var(--color-tinta);
+    --color-producto: #b4bcbf;      /* mismo gris del fondo de las fotos de producto */
+
+    --fuente-titulos: 'Permanent Marker', 'Comic Sans MS', cursive;
+    --fuente-base: 'Patrick Hand', 'Comic Sans MS', cursive;
+    --fuente-archivo: 'Special Elite', 'Courier New', monospace;
+
+    /* Bordes irregulares, como un recuadro dibujado a mano */
+    --borde-mano: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    --sombra-hoja: 0 22px 40px -18px rgba(60, 0, 0, 0.7);
+    --sombra-foto: 0 2px 4px rgba(42, 29, 34, 0.18), 0 12px 20px -10px rgba(42, 29, 34, 0.4);
+
+    /* Grano de papel, de cartón y de la mesa generado con un filtro SVG */
+    --textura-papel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .26 0 0 0 0 .18 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23r)'/%3E%3C/svg%3E");
+    --textura-portada: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23r)'/%3E%3C/svg%3E");
+    --textura-mesa: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 0 0 0 0 0 0 0 0 0 .14 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23r)'/%3E%3C/svg%3E");
+    --subrayado: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12'%3E%3Cpath d='M3 8C25 3 45 10 65 6s35-3 52 1' fill='none' stroke='%233a4aa0' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E");
+
+    --ancho-max: 1240px;
+    --margen-lateral: max(1.25rem, calc((100% - var(--ancho-max)) / 2));
+    --ancho-hoja: min(100% - 2.5rem, var(--ancho-max));
+    --transicion: 0.25s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 8rem; /* el header fijo no tapa las secciones al navegar con anclas */
+}
+
+/* Conflicto 1: gana body por tener etiqueta contra el * */
+body {
+    font-family: var(--fuente-base);
+    font-size: 1.125rem;
+    background-color: var(--color-mesa);
+    background-image: var(--textura-mesa);
+    color: var(--color-texto);
+    line-height: 1.55;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+::selection {
+    background-color: var(--color-azul);
+    color: var(--color-hoja);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 3px dashed var(--color-azul);
+    outline-offset: 3px;
+}
+
+/* En las tapas negras el azul no se ve: el foco pasa a color kraft */
+header a:focus-visible,
+footer a:focus-visible,
+.hero a:focus-visible,
+.pedido__info a:focus-visible {
+    outline-color: var(--color-kraft);
+}
+
+/* ---------- Barra de anuncio: tira de cinta kraft ---------- */
+
+aside {
+    background-color: var(--color-kraft);
+    background-image: var(--textura-papel);
+    color: var(--color-tinta);
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-family: var(--fuente-archivo);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* ---------- Encabezado: tapa negra del cuaderno ---------- */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: var(--color-portada);
+    background-image: var(--textura-portada);
+    box-shadow: 0 8px 18px -8px rgba(0, 0, 0, 0.6);
+    padding: 0.9rem var(--margen-lateral) 0;
+    text-align: center;
+}
+
+header h1 {
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+header h1 a {
+    display: inline-block;
+    color: var(--color-tiza);
+    text-decoration: none;
+}
+
+header h1 img {
+    height: 2.75rem;
+    width: auto;
+}
+
+header nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+header nav a {
+    display: block;
+    padding: 0.55rem 0 0.45rem;
+    color: var(--color-tiza-suave);
+    text-decoration: none;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: color var(--transicion), border-color var(--transicion);
+}
+
+header nav a:hover,
+header nav a[aria-current="page"] {
+    color: var(--color-tiza);
+    border-bottom-color: var(--color-kraft);
+}
+
+/* ---------- Hojas del cuaderno ---------- */
+
+main {
+    flex: 1;
+    padding-top: 2.5rem;
+    counter-reset: pagina;
+}
+
+/* Cada sección de <main> es una hoja crema puesta sobre la mesa roja */
+main > section {
+    position: relative;
+    width: var(--ancho-hoja);
+    margin: 0 auto 2.5rem;
+    padding: 4.5rem 4rem 5rem;
+    background-color: var(--color-hoja);
+    background-image: var(--textura-papel);
+    border-radius: 6px 18px 18px 6px;
+    /* sombra interna a la izquierda: el pliegue de la costura */
+    box-shadow: inset 24px 0 26px -24px rgba(60, 30, 20, 0.45), var(--sombra-hoja);
+}
+
+/* Hojas alternas: las secciones pares de <main> son hojas punteadas */
+main > section:nth-of-type(even) {
+    background-image: radial-gradient(circle, rgba(42, 29, 34, 0.14) 1px, transparent 1.5px),
+                      var(--textura-papel);
+    background-size: 22px 22px, auto;
+}
+
+/* Número de página escrito a máquina en la esquina inferior (la portada no cuenta) */
+main > section:not(.hero) {
+    counter-increment: pagina;
+}
+
+main > section:not(.hero)::after {
+    content: "pág. " counter(pagina, decimal-leading-zero);
+    position: absolute;
+    right: 2rem;
+    bottom: 1.5rem;
+    font-family: var(--fuente-archivo);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--color-texto-suave);
+}
+
+/* Conflicto 2: gana section h2 por especificidad contra h2 general */
+h2 { color: #888888; }
+
+section h2 {
+    color: var(--color-acento);
+    text-align: center;
+    margin-bottom: 0.75rem;
+    font-family: var(--fuente-titulos);
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    font-weight: normal;
+    line-height: 1.15;
+    letter-spacing: 1px;
+}
+
+/* Subrayado de marcador azul hecho a mano */
+section h2::after {
+    content: "";
+    display: block;
+    width: 120px;
+    height: 12px;
+    background-image: var(--subrayado);
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin: 0.6rem auto 0 auto;
+}
+
+.subtitulo {
+    text-align: center;
+    color: var(--color-texto-suave);
+    font-size: 1.25rem;
+    max-width: 680px;
+    margin: 0 auto 3rem auto;
+}
+
+.migas {
+    font-family: var(--fuente-archivo);
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-texto-suave);
+    margin-bottom: 1.5rem;
+}
+
+.migas a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.migas a:hover {
+    color: var(--color-azul);
+}
+
+.centrado {
+    text-align: center;
+    margin-top: 3.5rem;
+}
+
+/* Trozo de cinta de enmascarar que "pega" fotos y notas a la hoja */
+.categoria-tile::before,
+.tarjeta-prenda::before,
+.foto::before,
+.testimonio::before,
+.aviso::before {
+    content: "";
+    position: absolute;
+    top: -0.8rem;
+    left: 50%;
+    z-index: 2;
+    width: 5.5rem;
+    height: 1.6rem;
+    background-color: var(--color-cinta);
+    box-shadow: 0 1px 2px rgba(42, 29, 34, 0.15);
+    transform: translateX(-50%) rotate(-4deg);
+    clip-path: polygon(0 10%, 4% 0, 9% 8%, 92% 4%, 97% 0, 100% 12%, 98% 90%, 94% 100%, 89% 92%, 6% 96%, 2% 100%, 0 88%);
+}
+
+/* ---------- Botones: recuadros de marcador ---------- */
+
+.boton,
+button {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background-color: var(--color-tinta);
+    color: var(--color-hoja);
+    border: 2px solid var(--color-tinta);
+    border-radius: var(--borde-mano);
+    font-family: var(--fuente-base);
+    font-size: 1.15rem;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color var(--transicion), color var(--transicion), border-color var(--transicion), transform var(--transicion);
+}
+
+.boton:hover,
+button:hover {
+    background-color: var(--color-azul);
+    border-color: var(--color-azul);
+    color: var(--color-hoja);
+    transform: rotate(-1.5deg);
+}
+
+.boton--contorno {
+    background-color: transparent;
+    color: var(--color-tinta);
+}
+
+.boton--contorno:hover {
+    background-color: var(--color-tinta);
+    border-color: var(--color-tinta);
+    color: var(--color-hoja);
+}
+
+.boton--claro {
+    background-color: var(--color-tiza);
+    color: var(--color-tinta);
+    border-color: var(--color-tiza);
+}
+
+.boton--claro:hover {
+    background-color: var(--color-kraft);
+    border-color: var(--color-kraft);
+    color: var(--color-tinta);
+}
+
+.boton--contorno-claro {
+    background-color: transparent;
+    color: var(--color-tiza);
+    border-color: var(--color-tiza);
+}
+
+.boton--contorno-claro:hover {
+    background-color: var(--color-tiza);
+    border-color: var(--color-tiza);
+    color: var(--color-tinta);
+}
+
+/* ---------- Portada: la tapa negra del cuaderno ---------- */
+
+.hero {
+    min-height: min(82vh, 720px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-left: calc(4rem + 18px);
+    background-color: var(--color-portada);
+    background-image: var(--textura-portada);
+    color: var(--color-tiza);
+    border-radius: 8px 28px 28px 8px;
+    /* lomo cosido a la izquierda */
+    box-shadow: inset 16px 0 0 var(--color-portada-lomo), inset 18px 0 0 #3b3530, var(--sombra-hoja);
+}
+
+.hero__portada {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem 2rem;
+    margin-bottom: 2.75rem;
+}
+
+.hero__murcielago {
+    width: clamp(120px, 20vw, 250px);
+    height: auto;
+    transform: rotate(-4deg);
+}
+
+.hero__lettering img:first-child {
+    width: clamp(180px, 32vw, 420px);
+    height: auto;
+}
+
+.hero__lettering img:last-child {
+    width: clamp(110px, 18vw, 230px);
+    height: auto;
+    margin: 0.5rem auto 0;
+}
+
+.hero__antetitulo {
+    font-family: var(--fuente-archivo);
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--color-tiza-suave);
+    margin-bottom: 1rem;
+}
+
+.hero h2 {
+    color: var(--color-tiza);
+    font-size: clamp(2.1rem, 5.5vw, 4rem);
+    line-height: 1.05;
+    margin-bottom: 1.1rem;
+}
+
+.hero h2::after {
+    display: none;
+}
+
+.hero__descripcion {
+    color: #d8d1bf;
+    font-size: 1.3rem;
+    max-width: 560px;
+    margin-bottom: 2.25rem;
+}
+
+.hero__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.hero__fecha {
+    margin-top: 3rem;
+    font-family: var(--fuente-titulos);
+    font-size: clamp(1.3rem, 3vw, 1.9rem);
+    letter-spacing: 2px;
+    color: var(--color-tiza);
+    transform: rotate(-2deg);
+}
+
+/* ---------- Archivo de octubre (campaña del cliente) ---------- */
+
+.archivo__fotos {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 3rem 2rem;
+    padding-top: 1rem;
+}
+
+.foto {
+    position: relative;
+    background-color: var(--color-foto);
+    padding: 0.65rem 0.65rem 0;
+    box-shadow: var(--sombra-foto);
+    transform: rotate(var(--giro, 0deg));
+    transition: transform var(--transicion);
+}
+
+.foto:nth-child(1) { --giro: -2.5deg; }
+.foto:nth-child(2) { --giro: 1.8deg; }
+.foto:nth-child(3) { --giro: -1.2deg; }
+.foto:nth-child(4) { --giro: 2.4deg; }
+
+.foto:hover {
+    transform: rotate(0deg) scale(1.03);
+    z-index: 3;
+}
+
+.foto img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+.foto figcaption {
+    padding: 0.7rem 0.25rem 0.9rem;
+    text-align: center;
+    font-size: 1.15rem;
+    line-height: 1.3;
+    color: var(--color-tinta);
+}
+
+.foto figcaption span {
+    display: block;
+    font-family: var(--fuente-archivo);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--color-texto-suave);
+}
+
+.archivo__cierre {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.archivo__lettering {
+    width: min(100%, 380px);
+    height: auto;
+}
+
+.archivo__cierre p {
+    font-family: var(--fuente-titulos);
+    font-size: 1.4rem;
+    color: var(--color-tinta);
+}
+
+/* ---------- Categorías: fotos pegadas con etiqueta ---------- */
+
+.categorias {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2.5rem 1.75rem;
+    padding-top: 1rem;
+}
+
+.categoria-tile {
+    position: relative;
+    display: block;
+    background-color: var(--color-foto);
+    padding: 0.6rem 0.6rem 0;
+    box-shadow: var(--sombra-foto);
+    text-decoration: none;
+    transform: rotate(var(--giro, 0deg));
+    transition: transform var(--transicion);
+}
+
+.categoria-tile:nth-child(odd) { --giro: -1.5deg; }
+.categoria-tile:nth-child(even) { --giro: 1.2deg; }
+
+.categoria-tile:hover {
+    transform: rotate(0deg) translateY(-6px);
+}
+
+.categoria-tile img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: contain;
+    background-color: var(--color-producto);
+}
+
+.categoria-tile span {
+    display: block;
+    padding: 0.7rem 0.25rem 0.85rem;
+    text-align: center;
+    font-family: var(--fuente-titulos);
+    font-size: 1.25rem;
+    color: var(--color-tinta);
+}
+
+/* ---------- Tarjetas de producto: fotos pegadas en la hoja ---------- */
+
+.grilla-productos {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 3rem 1.75rem;
+    padding-top: 1rem;
+}
+
+/* Conflicto 3 por Orden */
+.tarjeta-prenda { background-color: #555555; } /* Pierde por estar arriba */
+.tarjeta-prenda { background-color: #fdfaf3; }  /* Gana por orden cascada */
+
+.tarjeta-prenda {
+    position: relative;
+    text-align: left;
+    padding: 0.6rem 0.6rem 0.9rem;
+    box-shadow: var(--sombra-foto);
+    transform: rotate(var(--giro, 0deg));
+    transition: transform var(--transicion);
+}
+
+.grilla-productos > :nth-child(4n + 1) { --giro: -1.2deg; }
+.grilla-productos > :nth-child(4n + 2) { --giro: 0.8deg; }
+.grilla-productos > :nth-child(4n + 3) { --giro: -0.5deg; }
+.grilla-productos > :nth-child(4n + 4) { --giro: 1.4deg; }
+
+.tarjeta-prenda:hover {
+    transform: rotate(0deg) translateY(-6px);
+}
+
+.tarjeta-prenda__marco {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background-color: var(--color-producto);
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+}
+
+.tarjeta-prenda__imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Sello de tinta roja */
+.tarjeta-prenda__etiqueta {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.6rem;
+    padding: 0.2rem 0.5rem;
+    border: 2px solid var(--color-mesa);
+    border-radius: 3px;
+    background-color: rgba(253, 250, 243, 0.85);
+    color: var(--color-mesa);
+    font-family: var(--fuente-archivo);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transform: rotate(-8deg);
+}
+
+.tarjeta-prenda__coleccion {
+    font-family: var(--fuente-archivo);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-kraft-oscuro);
+}
+
+.tarjeta-prenda__titulo {
+    font-size: 1.2rem;
+    font-weight: normal;
+    line-height: 1.3;
+    color: var(--color-tinta);
+    margin-bottom: 0.15rem;
+}
+
+.tarjeta-prenda__titulo a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Toda la tarjeta queda clicable a través del enlace del título */
+.tarjeta-prenda__titulo a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.tarjeta-prenda__precio {
+    font-family: var(--fuente-titulos);
+    font-size: 1.05rem;
+}
+
+.tarjeta-prenda s {
+    font-family: var(--fuente-base);
+    color: var(--color-texto-suave);
+    margin-right: 0.4rem;
+}
+
+.tarjeta-prenda strong {
+    font-weight: normal;
+    color: var(--color-tinta);
+}
+
+/* ---------- Nosotros ---------- */
+
+.nosotros {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+.nosotros__texto p {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--color-texto);
+    margin-bottom: 1.25rem;
+}
+
+.nosotros__texto p:first-child {
+    font-family: var(--fuente-titulos);
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.35;
+    color: var(--color-tinta);
+}
+
+.nosotros__murcielago {
+    width: min(100%, 300px);
+    height: auto;
+    margin-top: 1.5rem;
+    transform: rotate(-5deg);
+}
+
+/* Fichas escritas a mano */
+.bloque {
+    position: relative;
+    background-color: var(--color-foto);
+    border: 2px solid var(--color-tinta);
+    border-radius: var(--borde-mano);
+    padding: 2rem;
+    box-shadow: var(--sombra-foto);
+    transform: rotate(-0.8deg);
+}
+
+.bloque + .bloque {
+    margin-top: 1.75rem;
+    transform: rotate(0.8deg);
+}
+
+.bloque h3 {
+    font-family: var(--fuente-titulos);
+    font-size: 1.5rem;
+    font-weight: normal;
+    color: var(--color-azul);
+    margin-bottom: 0.5rem;
+}
+
+.bloque + .bloque h3 {
+    color: var(--color-verde);
+}
+
+.bloque p {
+    font-size: 1.15rem;
+    color: var(--color-texto);
+}
+
+/* ---------- Qué hacemos ---------- */
+
+.servicios {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 2px dashed var(--color-hoja-linea);
+    border-bottom: 2px dashed var(--color-hoja-linea);
+}
+
+.servicio {
+    padding: 2.5rem 1.75rem;
+}
+
+.servicio + .servicio {
+    border-left: 2px dashed var(--color-hoja-linea);
+}
+
+/* Números rellenos de marcador con contorno de tinta, como el lettering "PRESSURE STAKES" */
+.servicio__numero {
+    display: block;
+    font-family: var(--fuente-titulos);
+    font-size: 2.8rem;
+    line-height: 1;
+    color: var(--color-azul);
+    -webkit-text-stroke: 1.5px var(--color-tinta);
+    paint-order: stroke fill;
+    margin-bottom: 1rem;
+}
+
+.servicio:nth-child(2) .servicio__numero { color: var(--color-verde); }
+.servicio:nth-child(3) .servicio__numero { color: var(--color-kraft); }
+.servicio:nth-child(4) .servicio__numero { color: var(--color-mesa); }
+
+.servicio h3 {
+    font-family: var(--fuente-titulos);
+    font-size: 1.25rem;
+    font-weight: normal;
+    line-height: 1.25;
+    color: var(--color-tinta);
+    margin-bottom: 0.6rem;
+}
+
+.servicio p {
+    font-size: 1.1rem;
+    color: var(--color-texto-suave);
+}
+
+/* ---------- Cómo comprar ---------- */
+
+.pasos {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1.5rem;
+    counter-reset: paso;
+}
+
+.pasos li {
+    counter-increment: paso;
+    background-color: var(--color-foto);
+    border: 2px dashed var(--color-hoja-linea);
+    border-radius: var(--borde-mano);
+    padding: 1.75rem 1.5rem;
+    font-size: 1.15rem;
+    transition: border-color var(--transicion), transform var(--transicion);
+}
+
+.pasos li::before {
+    content: counter(paso, decimal-leading-zero);
+    display: block;
+    font-family: var(--fuente-titulos);
+    font-size: 2.6rem;
+    line-height: 1;
+    color: var(--color-azul);
+    -webkit-text-stroke: 1.5px var(--color-tinta);
+    paint-order: stroke fill;
+    margin-bottom: 0.9rem;
+}
+
+.pasos li:nth-child(2)::before { color: var(--color-verde); }
+.pasos li:nth-child(3)::before { color: var(--color-kraft); }
+.pasos li:nth-child(4)::before { color: var(--color-mesa); }
+
+.pasos li:hover {
+    border-color: var(--color-tinta);
+    border-style: solid;
+    transform: translateY(-4px) rotate(-1deg);
+}
+
+.pasos a {
+    color: var(--color-azul);
+}
+
+/* ---------- Testimonios: notas pegadas ---------- */
+
+.testimonios {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-top: 1rem;
+}
+
+.testimonio {
+    position: relative;
+    background-color: var(--color-foto);
+    padding: 2.5rem;
+    box-shadow: var(--sombra-foto);
+    transform: rotate(-1deg);
+}
+
+.testimonio + .testimonio {
+    transform: rotate(1.2deg);
+}
+
+.testimonio blockquote {
+    font-size: 1.35rem;
+    line-height: 1.55;
+    color: var(--color-tinta);
+    margin-bottom: 1.5rem;
+}
+
+.testimonio blockquote::before {
+    content: "\201C";
+    display: block;
+    font-family: var(--fuente-titulos);
+    font-size: 3.5rem;
+    line-height: 0.8;
+    color: var(--color-azul);
+}
+
+.testimonio figcaption {
+    font-family: var(--fuente-archivo);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--color-texto-suave);
+}
+
+.testimonio cite {
+    font-style: normal;
+    color: var(--color-tinta);
+}
+
+/* ---------- Contacto ---------- */
+
+.contacto {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 3.5rem;
+    align-items: stretch;
+}
+
+.contacto__datos div {
+    padding: 0.9rem 0;
+    border-bottom: 2px dashed var(--color-hoja-linea);
+}
+
+.contacto__datos dt {
+    font-family: var(--fuente-archivo);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-texto-suave);
+}
+
+.contacto__datos dd {
+    font-size: 1.2rem;
+    color: var(--color-tinta);
+}
+
+.contacto__datos dd a {
+    color: var(--color-azul);
+}
+
+.contacto__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2rem;
+}
+
+/* El mapa se pega como una foto envejecida */
+iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+    border: 0.65rem solid var(--color-foto);
+    box-shadow: var(--sombra-foto);
+    transform: rotate(0.8deg);
+    filter: grayscale(1) sepia(0.4) contrast(0.95);
+}
+
+/* ---------- Catálogo: filtros por categoría ---------- */
+
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.filtro {
+    padding: 0.4rem 1.2rem;
+    border: 2px solid var(--color-tinta);
+    border-radius: var(--borde-mano);
+    color: var(--color-tinta);
+    text-decoration: none;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+    transition: background-color var(--transicion), color var(--transicion), border-color var(--transicion);
+}
+
+.filtro:hover {
+    background-color: rgba(42, 29, 34, 0.08);
+}
+
+/* Filtro de chip activo: "Ver todo" cuando ninguna categoría es :target */
+.catalogo:not(:has(.categoria:target)) .filtro[href="#catalogo"],
+.catalogo:has(#testamentos:target) .filtro[href="#testamentos"],
+.catalogo:has(#basicas:target) .filtro[href="#basicas"],
+.catalogo:has(#gorras:target) .filtro[href="#gorras"],
+.catalogo:has(#accesorios:target) .filtro[href="#accesorios"] {
+    background-color: var(--color-tinta);
+    border-color: var(--color-tinta);
+    color: var(--color-hoja);
+}
+
+.categoria {
+    padding: 0;
+    margin-top: 3.5rem;
+    /* Al filtrar, la página no salta hacia abajo: así los chips siguen a la vista */
+    scroll-margin-top: 100vh;
+}
+
+/* Filtro sin JavaScript: la categoría elegida es :target y las demás se ocultan */
+.catalogo:has(.categoria:target) .categoria:not(:target) {
+    display: none;
+}
+
+.categoria__titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    font-family: var(--fuente-titulos);
+    font-size: 1.6rem;
+    font-weight: normal;
+    color: var(--color-tinta);
+    padding-bottom: 0.5rem;
+    border-bottom: 2px dashed var(--color-hoja-linea);
+    margin-bottom: 1.5rem;
+}
+
+.categoria__titulo span {
+    font-family: var(--fuente-archivo);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--color-texto-suave);
+}
+
+abbr[title] {
+    text-decoration: underline dotted;
+    cursor: help;
+}
+
+/* ---------- Formulario de pedido: se llena como en el cuaderno ---------- */
+
+.pedido {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 3.5rem;
+    align-items: start;
+}
+
+form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 2rem;
+}
+
+.campo--completo {
+    grid-column: 1 / -1;
+}
+
+label {
+    display: block;
+    font-family: var(--fuente-archivo);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--color-tinta);
+    margin-bottom: 0.25rem;
+}
+
+input[type="text"], input[type="email"], input[type="tel"], textarea {
+    display: block;
+    width: 100%;
+    padding: 0.4rem 0.2rem;
+    background-color: transparent;
+    color: var(--color-tinta);
+    border: none;
+    border-bottom: 2px solid rgba(42, 29, 34, 0.5);
+    border-radius: 0;
+    font-family: var(--fuente-base);
+    font-size: 1.25rem; /* más de 16px evita el zoom automático en iOS */
+    transition: border-color var(--transicion), box-shadow var(--transicion);
+}
+
+/* El mensaje se escribe sobre renglones, como en una hoja rayada */
+textarea {
+    resize: vertical;
+    min-height: 12rem;
+    padding: 1.8rem 1rem 0;
+    line-height: 1.8rem;
+    background-color: var(--color-foto);
+    background-image: repeating-linear-gradient(transparent 0, transparent calc(1.8rem - 1px), rgba(58, 74, 160, 0.25) calc(1.8rem - 1px), rgba(58, 74, 160, 0.25) 1.8rem);
+    background-attachment: local;
+    border: 2px solid rgba(42, 29, 34, 0.5);
+    border-radius: 6px;
+}
+
+::placeholder {
+    color: #9a8e84;
+}
+
+input:hover, textarea:hover {
+    border-color: var(--color-tinta);
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-azul);
+    box-shadow: 0 2px 0 var(--color-azul);
+}
+
+.campo--casilla {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+}
+
+.campo--casilla input {
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-top: 0.3rem;
+    flex-shrink: 0;
+    accent-color: var(--color-tinta);
+}
+
+.campo--casilla label {
+    font-family: var(--fuente-base);
+    font-size: 1.1rem;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--color-texto-suave);
+    margin-bottom: 0;
+}
+
+.campo--casilla a {
+    color: var(--color-azul);
+}
+
+form button {
+    width: 100%;
+    padding: 1rem;
+}
+
+/* "Antes de pedir" es una libreta negra pequeña */
+.pedido__info {
+    background-color: var(--color-portada);
+    background-image: var(--textura-portada);
+    color: var(--color-tiza);
+    border-radius: 6px 18px 18px 6px;
+    box-shadow: inset 12px 0 0 var(--color-portada-lomo), var(--sombra-foto);
+    padding: 2rem 2rem 2rem calc(2rem + 12px);
+    transform: rotate(1deg);
+}
+
+.pedido__info h3 {
+    font-family: var(--fuente-titulos);
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin-bottom: 0.75rem;
+}
+
+.pedido__info ul {
+    list-style: none;
+}
+
+.pedido__info li {
+    padding: 0.7rem 0;
+    border-bottom: 1px dashed rgba(239, 233, 214, 0.25);
+    font-size: 1.1rem;
+    color: #d8d1bf;
+}
+
+.pedido__info li:last-child {
+    border-bottom: none;
+}
+
+.pedido__info a {
+    color: var(--color-kraft);
+}
+
+/* ---------- Políticas ---------- */
+
+.politicas {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 4rem;
+    align-items: start;
+}
+
+.politicas__indice {
+    position: sticky;
+    top: 8rem;
+    display: flex;
+    flex-direction: column;
+    border-left: 2px dashed var(--color-hoja-linea);
+}
+
+.politicas__indice p {
+    font-family: var(--fuente-archivo);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-texto-suave);
+    padding: 0 0 0.75rem 1.25rem;
+}
+
+.politicas__indice a {
+    padding: 0.35rem 0 0.35rem 1.25rem;
+    margin-left: -2px;
+    border-left: 3px solid transparent;
+    color: var(--color-texto);
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color var(--transicion), border-color var(--transicion);
+}
+
+.politicas__indice a:hover {
+    color: var(--color-azul);
+    border-left-color: var(--color-azul);
+}
+
+/* Nota de resumen pegada con cinta */
+.aviso {
+    position: relative;
+    background-color: #ecdcc4;
+    background-image: var(--textura-papel);
+    box-shadow: var(--sombra-foto);
+    padding: 1.75rem 1.75rem 1.5rem;
+    font-size: 1.15rem;
+    color: var(--color-tinta);
+    margin-bottom: 3.5rem;
+    transform: rotate(-0.6deg);
+}
+
+.aviso strong {
+    font-family: var(--fuente-titulos);
+    font-weight: normal;
+}
+
+.politica {
+    padding-bottom: 2.5rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 2px dashed var(--color-hoja-linea);
+}
+
+.politica:last-child {
+    border-bottom: none;
+}
+
+.politica h3 {
+    font-family: var(--fuente-titulos);
+    font-size: 1.6rem;
+    font-weight: normal;
+    color: var(--color-tinta);
+    margin-bottom: 1rem;
+}
+
+.politica h4 {
+    font-size: 1.3rem;
+    font-weight: normal;
+    color: var(--color-azul);
+    margin: 1.5rem 0 0.35rem;
+}
+
+.politica p,
+.politica li {
+    color: var(--color-texto);
+    font-size: 1.15rem;
+    line-height: 1.6;
+}
+
+.politica p + p,
+.politica ul + p {
+    margin-top: 0.75rem;
+}
+
+.politica ul {
+    padding-left: 1.25rem;
+    margin-top: 0.5rem;
+}
+
+.politica li + li {
+    margin-top: 0.35rem;
+}
+
+.politica a {
+    color: var(--color-azul);
+}
+
+.politica strong {
+    color: var(--color-tinta);
+}
+
+/* ---------- Pie de página: contraportada con el murciélago en relieve ---------- */
+
+footer {
+    width: var(--ancho-hoja);
+    margin: 0 auto 2.5rem;
+    background-color: var(--color-portada);
+    background-image: var(--textura-portada);
+    color: var(--color-tiza-suave);
+    padding: 4rem calc(4rem + 18px) 2rem 4rem;
+    border-radius: 28px 8px 8px 28px;
+    /* en la contraportada el lomo queda a la derecha */
+    box-shadow: inset -16px 0 0 var(--color-portada-lomo), inset -18px 0 0 #3b3530, var(--sombra-hoja);
+    font-size: 1.1rem;
+}
+
+.footer__columnas {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+    gap: 2.5rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px dashed rgba(239, 233, 214, 0.2);
+}
+
+/* Relieve: el murciélago se oscurece y recibe luz y sombra en los bordes */
+.footer__murcielago {
+    width: 150px;
+    height: auto;
+    margin-bottom: 1rem;
+    filter: brightness(0.13) drop-shadow(1px 1px 0 rgba(255, 255, 255, 0.12)) drop-shadow(-1px -1px 0 rgba(0, 0, 0, 0.8));
+}
+
+.footer__logo {
+    color: var(--color-tiza);
+    font-family: var(--fuente-titulos);
+    font-size: 1.8rem;
+    letter-spacing: 3px;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+
+footer h3 {
+    color: var(--color-tiza);
+    font-family: var(--fuente-archivo);
+    font-size: 0.8rem;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.9rem;
+}
+
+footer ul {
+    list-style: none;
+}
+
+footer li + li {
+    margin-top: 0.4rem;
+}
+
+footer a {
+    color: var(--color-tiza-suave);
+    text-decoration: none;
+    transition: color var(--transicion);
+}
+
+footer a:hover {
+    color: var(--color-tiza);
+}
+
+.footer__legal {
+    padding-top: 2rem;
+    text-align: center;
+    font-family: var(--fuente-archivo);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: #8a8273;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1024px) {
+    .grilla-productos {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grilla-productos > :nth-child(3n + 1) { --giro: -1.2deg; }
+    .grilla-productos > :nth-child(3n + 2) { --giro: 0.8deg; }
+    .grilla-productos > :nth-child(3n + 3) { --giro: -0.6deg; }
+
+    .archivo__fotos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 3rem 2.5rem;
+    }
+
+    .servicios {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .servicio + .servicio {
+        border-left: none;
+    }
+
+    .servicio:nth-child(even) {
+        border-left: 2px dashed var(--color-hoja-linea);
+    }
+
+    .servicio:nth-child(n + 3) {
+        border-top: 2px dashed var(--color-hoja-linea);
+    }
+
+    .footer__columnas {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    main > section {
+        padding: 3.5rem 2.5rem 4.5rem;
+    }
+
+    .hero {
+        padding-left: calc(2.5rem + 18px);
+    }
+
+    .nosotros,
+    .contacto,
+    .pedido,
+    .politicas {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .politicas__indice {
+        position: static;
+    }
+
+    iframe {
+        height: auto;
+        min-height: 0;
+        aspect-ratio: 4 / 3;
+    }
+
+    footer {
+        padding: 3rem calc(2.5rem + 18px) 2rem 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --ancho-hoja: min(100% - 1.25rem, var(--ancho-max));
+    }
+
+    html {
+        scroll-padding-top: 7rem;
+    }
+
+    main {
+        padding-top: 1.25rem;
+    }
+
+    main > section,
+    footer {
+        margin-bottom: 1.25rem;
+    }
+
+    header {
+        padding-top: 0.75rem;
+    }
+
+    header h1 img {
+        height: 2.25rem;
+    }
+
+    /* El menú pasa a una fila deslizable, como en las tiendas de moda en móvil */
+    header nav {
+        justify-content: flex-start;
+        gap: 1.5rem;
+    }
+
+    .hero__portada {
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .grilla-productos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2.25rem 1rem;
+    }
+
+    .grilla-productos > :nth-child(odd) { --giro: -1deg; }
+    .grilla-productos > :nth-child(even) { --giro: 1deg; }
+
+    .categorias {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem 1rem;
+    }
+
+    .categoria-tile span {
+        font-size: 1.05rem;
+    }
+
+    .tarjeta-prenda__etiqueta {
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+    }
+
+    .testimonios {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonio {
+        padding: 2rem 1.5rem;
+    }
+
+    .filtros {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: none;
+        margin-left: -1.25rem;
+        margin-right: -1.25rem;
+        padding: 0.3rem 1.25rem;
+    }
+}
+
+@media (max-width: 600px) {
+    main > section {
+        padding: 3rem 1.25rem 4rem;
+    }
+
+    .hero {
+        padding-left: calc(1.25rem + 18px);
+    }
+
+    .archivo__fotos {
+        gap: 2rem 1rem;
+    }
+
+    .foto figcaption {
+        font-size: 1rem;
+    }
+
+    .servicios {
+        grid-template-columns: 1fr;
+    }
+
+    .servicio:nth-child(even) {
+        border-left: none;
+    }
+
+    .servicio:nth-child(n + 2) {
+        border-top: 2px dashed var(--color-hoja-linea);
+    }
+
+    .servicio {
+        padding: 2rem 0.5rem;
+    }
+
+    form {
+        grid-template-columns: 1fr;
+    }
+
+    .hero__acciones .boton {
+        width: 100%;
+    }
+
+    .contacto__acciones .boton {
+        flex: 1 1 100%;
+    }
+
+    .footer__columnas {
+        grid-template-columns: 1fr;
+    }
+
+    footer {
+        padding: 2.5rem calc(1.25rem + 18px) 1.5rem 1.25rem;
+    }
+
+    aside {
+        font-size: 0.65rem;
+        letter-spacing: 1.5px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
