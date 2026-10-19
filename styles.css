@@ -1,0 +1,365 @@
+/* =========================================================
+   Hoja de vida - Sebastián Calderón
+   Mobile First (R2): primero los estilos para celular,
+   las @media (min-width) van al final del archivo.
+   ========================================================= */
+
+/* ---------- Colores y medidas reutilizables ---------- */
+:root {
+    --azul-oscuro: #2b4a7a;
+    --azul: #3f72af;
+    --gris-linea: #dcdcdc;
+    --gris-texto: #6b6b6b;
+    --texto: #222222;
+    --fondo-pagina: #f2f4f7;
+    --blanco: #ffffff;
+}
+
+/* ---------- Base ---------- */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background-color: var(--fondo-pagina);
+}
+
+/* R6: ancho máximo, centrado y unidades relativas */
+body {
+    max-width: 64rem;
+    margin: 0 auto;
+    background-color: var(--blanco);
+    color: var(--texto);
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* R7: las imágenes nunca se salen de su contenedor */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ---------- Estructura de la página ---------- */
+/* R4: grid por áreas. En celular todo va en una sola columna */
+body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "cabecera"
+        "menu"
+        "principal"
+        "lateral"
+        "pie";
+}
+
+.cabecera { grid-area: cabecera; }
+.menu     { grid-area: menu; }
+.principal { grid-area: principal; }
+.lateral  { grid-area: lateral; }
+.pie      { grid-area: pie; }
+
+.principal,
+.lateral {
+    min-width: 0;
+}
+
+/* ---------- Cabecera ---------- */
+.cabecera {
+    background-color: var(--azul-oscuro);
+    color: var(--blanco);
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.cabecera img {
+    width: 8rem;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 0.2rem solid var(--blanco);
+    margin: 0 auto 1rem;
+}
+
+.cabecera h1 {
+    font-size: 1.6rem;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.cabecera p {
+    margin: 0.5rem 0 0;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: #c9daf0;
+}
+
+/* ---------- Menú (R8) ---------- */
+.menu {
+    background-color: var(--azul);
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 1rem;
+}
+
+.menu a {
+    display: block;
+    padding: 0.4rem 0.5rem;
+    color: var(--blanco);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.menu a:hover,
+.menu a:focus {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+/* Página en la que está el usuario */
+.menu a[aria-current="page"] {
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 0.15em;
+    text-underline-offset: 0.3em;
+}
+
+/* ---------- Secciones ---------- */
+section {
+    padding: 1.5rem 1rem;
+    border-bottom: 1px solid var(--gris-linea);
+}
+
+h2 {
+    margin: 0 0 1rem;
+    font-size: 1.15rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--azul-oscuro);
+}
+
+#perfil p {
+    margin: 0;
+}
+
+/* ---------- Fichas de formación y experiencia ---------- */
+.item + .item {
+    margin-top: 1.25rem;
+}
+
+.item h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.item p {
+    margin: 0;
+}
+
+.item .lugar {
+    font-size: 0.9rem;
+    color: var(--gris-texto);
+}
+
+.item .fecha {
+    margin-bottom: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--azul);
+}
+
+/* ---------- Listas de la columna lateral ---------- */
+.lista {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.lista li::marker {
+    color: var(--azul);
+}
+
+/* ---------- Tarjetas de habilidades ---------- */
+/* R5: las columnas se crean solas según el espacio disponible */
+.tarjetas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: 0.6rem;
+}
+
+.subtitulo {
+    margin: 0 0 0.6rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gris-texto);
+}
+
+.tarjetas + .subtitulo {
+    margin-top: 1.25rem;
+}
+
+.tarjetas li {
+    padding: 0.6rem 0.75rem;
+    background-color: #f7f9fc;
+    border: 1px solid var(--gris-linea);
+    border-left: 0.25rem solid var(--azul);
+    border-radius: 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* ---------- Páginas de proyectos y contacto ---------- */
+.intro {
+    margin: 0 0 1.5rem;
+    color: var(--gris-texto);
+}
+
+/* R5: rejilla de paneles que se acomoda sola */
+.rejilla {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 1rem;
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    border: 1px solid var(--gris-linea);
+    border-top: 0.25rem solid var(--azul);
+    border-radius: 0.5rem;
+}
+
+.panel h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--azul-oscuro);
+}
+
+.panel p {
+    margin: 0;
+}
+
+.etiquetas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.etiquetas li {
+    padding: 0.15rem 0.6rem;
+    border-radius: 1rem;
+    background-color: #e8eef7;
+    color: var(--azul-oscuro);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.enlace {
+    margin-top: auto;
+    color: var(--azul);
+    font-weight: 600;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.enlace:hover,
+.enlace:focus {
+    text-decoration: underline;
+}
+
+/* ---------- Pie de página ---------- */
+.pie {
+    background-color: var(--azul-oscuro);
+    color: var(--blanco);
+    text-align: center;
+    padding: 1.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.pie p {
+    margin: 0;
+}
+
+
+/* =========================================================
+   R2 y R3: media queries al final, de menor a mayor
+   ========================================================= */
+
+/* ---------- Tablet: desde 600px ---------- */
+@media (min-width: 600px) {
+
+    /* La cabecera pasa a fila: foto a la izquierda, texto a la derecha */
+    .cabecera {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-areas:
+            "foto nombre"
+            "foto profesion";
+        column-gap: 1.5rem;
+        align-items: center;
+        text-align: left;
+        padding: 2rem;
+    }
+
+    .cabecera img     { grid-area: foto; margin: 0; }
+    .cabecera h1      { grid-area: nombre; align-self: end; font-size: 2rem; }
+    .cabecera p       { grid-area: profesion; align-self: start; }
+
+    section {
+        padding: 1.75rem 2rem;
+    }
+}
+
+/* ---------- Computador: desde 1024px ---------- */
+@media (min-width: 1024px) {
+
+    body {
+        margin: 2rem auto;
+        box-shadow: 0 0.25rem 1.5rem rgba(0, 0, 0, 0.08);
+    }
+
+    /* R4: en la hoja de vida aparece la columna lateral a la derecha */
+    .hoja-vida {
+        grid-template-columns: 2fr 1fr;
+        grid-template-areas:
+            "cabecera  cabecera"
+            "menu      menu"
+            "principal lateral"
+            "pie       pie";
+    }
+
+    .lateral {
+        border-left: 1px solid var(--gris-linea);
+    }
+
+    .cabecera img {
+        width: 9rem;
+    }
+
+    .cabecera h1 {
+        font-size: 2.4rem;
+    }
+}
