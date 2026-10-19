@@ -47,8 +47,8 @@ Las tarjetas de habilidades, proyectos y contacto usan `repeat(auto-fit, minmax(
 2. En la terminal de VS Code, dentro de la carpeta del proyecto, usé `git init` para convertir la carpeta en un repositorio de Git.
 3. Subí el trabajo en varios commits con `git add` y `git commit`: primero la hoja de vida y el CSS, luego las páginas de proyectos y contacto, y por último los mockups y las capturas.
 4. Conecté mi carpeta con el repositorio de GitHub con `git remote add origin` y subí los archivos con `git push -u origin main`.
-5. En el repositorio entré a **Settings → Pages**. Al principio no me aparecía la opción para elegir la rama porque [explica qué te pasó y qué tuviste que cambiar]. En **Source** elegí **Deploy from a branch**, la rama `main` y la carpeta `/ (root)`, porque ahí está mi `index.html`.
-6. Después de [cuánto tiempo] apareció el enlace del sitio. Lo probé en una ventana de incógnito y desde mi celular, y revisé que funcionaran todas las páginas, los enlaces y las imágenes.
+5. En el repositorio entré a **Settings → Pages**. Al principio no me aparecía la opción para elegir la rama porque estaba en el Settings de mi perfil y no en el del repositorio. Tuve que entrar al repositorio y usar la pestaña **Settings** que está junto a *Code* e *Issues*. En **Source** elegí **Deploy from a branch**, la rama `main` y la carpeta `/ (root)`, porque ahí está mi `index.html`.
+6. Después de 1 a 2 minutos apareció el enlace del sitio. Lo probé en una ventana de incógnito y desde mi celular, y revisé que funcionaran todas las páginas, los enlaces y las imágenes.
 
 ## Fuentes consultadas
 
