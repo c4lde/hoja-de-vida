@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <!-- R1 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Proyectos de Sebastián Calderón, desarrollador de software junior en formación.">
+    <title>Sebastián Calderón | Proyectos</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="cabecera">
+        <img src="img/foto.jpg" alt="Foto de Sebastián Calderón">
+        <h1>Sebastián Andrés Calderón Silva</h1>
+        <p>Desarrollador Junior en formación</p>
+    </header>
+
+    <!-- R8 y R9: menú igual en todas las páginas, con rutas relativas -->
+    <nav class="menu">
+        <ul>
+            <li><a href="index.html">Hoja de vida</a></li>
+            <li><a href="proyectos.html" aria-current="page">Proyectos</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <main class="principal">
+        <section id="proyectos">
+            <h2>Proyectos</h2>
+            <p class="intro">Trabajos que he desarrollado durante mi formación en Campuslands.</p>
+
+            <div class="rejilla">
+                <article class="panel">
+                    <h3>Pressure: tienda de ropa urbana</h3>
+                    <p>
+                        Sitio web para una tienda local de streetwear de Barrancabermeja. Muestra
+                        las colecciones y sus precios, y permite armar un pedido que se envía
+                        directamente por WhatsApp.
+                    </p>
+                    <ul class="etiquetas">
+                        <li>HTML</li>
+                        <li>CSS</li>
+                        <li>BEM</li>
+                    </ul>
+                    <!-- R10 -->
+                    <a class="enlace" href="https://github.com/c4lde/Pressure-HTML" target="_blank" rel="noopener">Ver repositorio</a>
+                </article>
+
+                <article class="panel">
+                    <h3>Generador de horarios para estudiantes</h3>
+                    <p>
+                        Aplicación de consola para organizar horarios académicos: registra
+                        materias, detecta cruces de horario, genera reportes semanales y guarda
+                        la información en archivos JSON.
+                    </p>
+                    <ul class="etiquetas">
+                        <li>Python</li>
+                        <li>JSON</li>
+                        <li>Código modular</li>
+                    </ul>
+                    <a class="enlace" href="https://github.com/c4lde/Proyecto_Python_CalderonSebastian" target="_blank" rel="noopener">Ver repositorio</a>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pie">
+        <p>&copy; 2026 Sebastián Calderón</p>
+    </footer>
+
+</body>
+</html>
